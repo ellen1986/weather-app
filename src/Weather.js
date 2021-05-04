@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import "./Weather.css";
 export default function SearchEngine(props) {
   let [city, setCity] = useState("");
   let [loaded, setLoaded] = useState(false);
   let [weather, setWeather] = useState(null);
-
   function displayTemperature(response) {
     setWeather({
       temperature: response.data.main.temp,
       wind: response.data.wind.speed,
       humidity: response.data.main.humidity,
-      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}
-      @2x.png`,
+      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       description: response.data.weather[0].description,
     });
     setLoaded(true);
   }
-
   function handleSubmit(event) {
     event.preventDefault();
     let apiKey = "15ebfc2dd8844ab614a089875bddc59e";
@@ -25,11 +22,9 @@ export default function SearchEngine(props) {
     &appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(displayTemperature);
   }
-
   function updateCity(event) {
     setCity(event.target.value);
   }
-
   let form = (
     <form onSubmit={handleSubmit}>
       <input
@@ -40,10 +35,9 @@ export default function SearchEngine(props) {
       <button type="submit">Search</button>
     </form>
   );
-
   if (loaded) {
     return (
-      <div>
+      <div className="Weather">
         {form}
         <ul>
           <li>Temperature: {Math.round(weather.temperature)}℃</li>
